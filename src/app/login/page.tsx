@@ -128,6 +128,9 @@ export default function Login() {
                   Register here
                 </Link>
               </p>
+              <p className="mt-3 text-center text-sm text-secondary-600">
+                Platform administrator? <Link href="/platform-login" className="font-semibold text-primary-600 hover:text-primary-700">Use platform login</Link>.
+              </p>
             </CardBody>
           </Card>
         </div>
