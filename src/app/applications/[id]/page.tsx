@@ -117,6 +117,15 @@ export default function ApplicationDetail({ params }: { params: { id: string } }
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-6">
+              {(application.assessmentDate || application.decisionNote) && (
+                <Card>
+                  <CardHeader><h2 className="text-xl font-bold text-secondary-900">Update from the school</h2></CardHeader>
+                  <CardBody className="space-y-2 text-secondary-700">
+                    {application.assessmentDate && <p><span className="font-semibold">Exam or assessment:</span> {new Date(application.assessmentDate).toLocaleString()}</p>}
+                    {application.decisionNote && <p className="whitespace-pre-line">{application.decisionNote}</p>}
+                  </CardBody>
+                </Card>
+              )}
               {/* Application Summary */}
               <Card>
                 <CardHeader>

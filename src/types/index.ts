@@ -112,6 +112,8 @@ export interface Application {
   totalAmount: number;
   transactionId?: string;
   submittedAt?: string;
+  assessmentDate?: string;
+  decisionNote?: string;
   createdAt: string;
   updatedAt: string;
 }

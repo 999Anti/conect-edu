@@ -14,11 +14,14 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   if (!application) return notFound('Application not found.');
   const canManage = user.role === 'conect_admin' || (user.role === 'school_admin' && application.schoolId === (user as { schoolId?: string }).schoolId);
   if (!canManage) return forbidden();
-  const { status } = await request.json() as { status?: ApplicationStatus };
+  const { status, assessmentDate, decisionNote } = await request.json() as { status?: ApplicationStatus; assessmentDate?: string; decisionNote?: string };
   if (!status || !validStatuses.includes(status)) return badRequest('A valid application status is required.');
+  if (assessmentDate && Number.isNaN(Date.parse(assessmentDate))) return badRequest('Enter a valid assessment date.');
+  if (assessmentDate && !['accepted', 'assessment_scheduled', 'shortlisted'].includes(status)) return badRequest('An assessment date can only be set for shortlisted, accepted, or scheduled candidates.');
   application.status = status;
+  application.assessmentDate = assessmentDate || undefined;
+  application.decisionNote = decisionNote?.trim() || undefined;
   application.updatedAt = new Date().toISOString();
   await writeDatabase(database);
   return NextResponse.json(application);
 }
-

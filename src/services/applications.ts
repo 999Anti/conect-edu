@@ -78,11 +78,12 @@ class ApplicationService {
 
   async updateApplicationStatus(
     id: string,
-    status: ApplicationStatus
+    status: ApplicationStatus,
+    details?: { assessmentDate?: string; decisionNote?: string }
   ): Promise<Application> {
     const response = await api.patch<Application>(
       `/applications/${id}/status`,
-      { status }
+      { status, ...details }
     );
     return response.data;
   }
