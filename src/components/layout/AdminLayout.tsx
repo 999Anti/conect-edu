@@ -32,6 +32,7 @@ export default function AdminLayout({ children, title }: AdminSidebarProps) {
         { label: 'Settings', href: '/admin/settings', icon: '⚙️' },
       ]
     : [
+        { label: 'Platform Admins', href: '/conect/admins', icon: 'Admin' },
         { label: 'Dashboard', href: '/conect/dashboard', icon: '📊' },
         { label: 'Schools', href: '/conect/schools', icon: '🏫' },
         { label: 'Users', href: '/conect/users', icon: '👥' },
