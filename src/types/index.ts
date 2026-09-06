@@ -38,12 +38,34 @@ export interface School {
   boardingOption: 'day' | 'boarding' | 'mixed';
   gender: 'male' | 'female' | 'mixed';
   facilities?: string[];
+  programmes?: string[];
+  admissionRequirements?: string[];
+  admissionInstructions?: string;
+  website?: string;
+  gallery?: string[];
   rating?: number;
   applicationCount?: number;
   verified: boolean;
   verificationStatus: 'pending' | 'under_review' | 'verified' | 'suspended' | 'rejected';
   createdAt: string;
   updatedAt: string;
+}
+
+export interface SchoolApplication {
+  id: string;
+  schoolName: string;
+  contactFirstName: string;
+  contactLastName: string;
+  contactEmail: string;
+  contactPhone: string;
+  address: string;
+  state: string;
+  city: string;
+  website?: string;
+  description?: string;
+  status: 'pending' | 'approved' | 'rejected';
+  createdAt: string;
+  reviewedAt?: string;
 }
 
 export interface SchoolAdmin extends User {

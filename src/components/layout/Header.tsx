@@ -36,6 +36,9 @@ export default function Header() {
           <Link href="/faq" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
             FAQ
           </Link>
+          <Link href="/school-apply" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
+            List Your School
+          </Link>
 
           {user ? (
             <div className="flex items-center gap-4">
@@ -95,6 +98,9 @@ export default function Header() {
               onClick={() => setIsOpen(false)}
             >
               FAQ
+            </Link>
+            <Link href="/school-apply" className="block text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400" onClick={() => setIsOpen(false)}>
+              List Your School
             </Link>
 
             {user ? (

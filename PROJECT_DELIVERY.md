@@ -15,6 +15,8 @@ CONECT EDU is a web application for helping families find schools and manage app
 
 The application includes public school pages, registration and sign-in, application workflows, status tracking, payment history, and role-specific dashboards. API route handlers live under `src/app/api` and the frontend service layer is in `src/services`.
 
+Schools submit a listing request at `/school-apply`. A platform administrator reviews requests at `/conect/schools` and approves them with a temporary password. Approval creates one school-admin account tied to that school, which can then update its profile at `/admin/school-profile`.
+
 ## Before deployment
 
 1. Set production environment values, including authentication and Paystack settings.

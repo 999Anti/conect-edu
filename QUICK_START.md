@@ -29,6 +29,12 @@
 
 The app stores local development data in `.data/conect-edu.json`. That directory is ignored by Git.
 
+## Platform administrator
+
+Before starting the app for the first time, set `PLATFORM_ADMIN_EMAIL` and `PLATFORM_ADMIN_PASSWORD` in `.env.local`. The application creates this account only when no platform administrator exists. Sign in with that account and open `/conect/schools` to review school applications and create school-admin logins.
+
+Schools apply at `/school-apply`; they cannot create administrator accounts themselves.
+
 ## Main routes
 
 | Route | Purpose |

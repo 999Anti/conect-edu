@@ -234,7 +234,7 @@ export default function SchoolDetail({ params }: { params: { id: string } }) {
             <Card>
               <CardBody>
                 <h2 className="text-2xl font-bold text-secondary-900 mb-4">Academic Programs</h2>
-                <p className="text-secondary-600">Academic information coming soon</p>
+                {school.programmes?.length ? <ul className="list-disc space-y-2 pl-5 text-secondary-700">{school.programmes.map((programme) => <li key={programme}>{programme}</li>)}</ul> : <p className="text-secondary-600">Academic information will be shared by the school soon.</p>}
               </CardBody>
             </Card>
           )}
@@ -243,7 +243,8 @@ export default function SchoolDetail({ params }: { params: { id: string } }) {
             <Card>
               <CardBody>
                 <h2 className="text-2xl font-bold text-secondary-900 mb-4">Admissions</h2>
-                <p className="text-secondary-600">Admission requirements and process coming soon</p>
+                {school.admissionInstructions && <p className="mb-5 whitespace-pre-line text-secondary-700">{school.admissionInstructions}</p>}
+                {school.admissionRequirements?.length ? <><h3 className="mb-3 font-semibold text-secondary-900">Requirements</h3><ul className="list-disc space-y-2 pl-5 text-secondary-700">{school.admissionRequirements.map((requirement) => <li key={requirement}>{requirement}</li>)}</ul></> : <p className="text-secondary-600">Admission requirements will be shared by the school soon.</p>}
               </CardBody>
             </Card>
           )}
@@ -252,7 +253,8 @@ export default function SchoolDetail({ params }: { params: { id: string } }) {
             <Card>
               <CardBody>
                 <h2 className="text-2xl font-bold text-secondary-900 mb-4">Facilities</h2>
-                <p className="text-secondary-600">Facilities information coming soon</p>
+                {school.facilities?.length ? <ul className="list-disc space-y-2 pl-5 text-secondary-700">{school.facilities.map((facility) => <li key={facility}>{facility}</li>)}</ul> : <p className="text-secondary-600">Facilities information will be shared by the school soon.</p>}
+                {school.gallery?.length ? <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">{school.gallery.map((image) => <img key={image} src={image} alt={`${school.name} gallery`} className="h-40 w-full rounded-lg object-cover" />)}</div> : null}
               </CardBody>
             </Card>
           )}
