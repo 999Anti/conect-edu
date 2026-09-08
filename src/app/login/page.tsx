@@ -39,6 +39,10 @@ export default function Login() {
 
       setUser(response.user);
       setToken(response.token);
+      if (response.user.mustChangePassword) {
+        router.push('/settings?required=1');
+        return;
+      }
 
       if (response.user.role === 'school_admin') {
         router.push('/admin/dashboard');

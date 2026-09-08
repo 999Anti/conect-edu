@@ -43,6 +43,25 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+html.dark .bg-white,
+html.dark .bg-secondary-50 { background-color: var(--surface) !important; }
+html.dark .bg-secondary-100 { background-color: var(--surface-alt) !important; }
+html.dark .bg-secondary-900 { background-color: #0b1220 !important; }
+html.dark .text-secondary-900,
+html.dark .text-secondary-800,
+html.dark .text-secondary-700 { color: var(--text) !important; }
+html.dark .text-secondary-600,
+html.dark .text-secondary-500 { color: var(--muted) !important; }
+html.dark .border-secondary-100,
+html.dark .border-secondary-200,
+html.dark .border-secondary-300 { border-color: var(--border) !important; }
+html.dark input,
+html.dark select,
+html.dark textarea { background-color: var(--surface-alt) !important; color: var(--text) !important; border-color: var(--border) !important; }
+html.dark th,
+html.dark tr:hover { background-color: var(--surface-alt) !important; }
+html.dark td { border-color: var(--border) !important; }
+
 img {
   max-width: 100%;
 }

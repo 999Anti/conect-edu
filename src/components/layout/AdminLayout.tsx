@@ -26,6 +26,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
         { label: 'Applications', href: '/admin/applications', icon: FileText },
         { label: 'School profile', href: '/admin/school-profile', icon: Building2 },
         { label: 'Staff', href: '/admin/staff', icon: Users },
+        { label: 'Settings', href: '/settings', icon: Settings },
       ]
     : [
         { label: 'Dashboard', href: '/conect/dashboard', icon: LayoutDashboard },
@@ -36,7 +37,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
         { label: 'Reports', href: '/conect/reports', icon: BarChart3 },
         { label: 'Activity log', href: '/conect/activity', icon: ShieldCheck },
         { label: 'Platform admins', href: '/conect/admins', icon: ShieldCheck },
-        { label: 'Settings', href: '/conect/settings', icon: Settings },
+        { label: 'Settings', href: '/settings', icon: Settings },
       ];
   const closeMobile = () => setIsMobileOpen(false);
   const handleLogout = () => { logout(); window.location.assign('/'); };

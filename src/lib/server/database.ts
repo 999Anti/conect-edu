@@ -79,6 +79,11 @@ export async function readDatabase(): Promise<Database> {
     database.schoolApplications ||= [];
     database.notifications ||= [];
     database.auditLogs ||= [];
+    const missingPasswordChangeFlags = database.users.filter((user) => user.role === 'school_admin' && user.mustChangePassword === undefined);
+    if (missingPasswordChangeFlags.length) {
+      missingPasswordChangeFlags.forEach((user) => { user.mustChangePassword = true; });
+      await writeDatabase(database);
+    }
     await ensurePlatformAdmin(database);
     return database;
   } catch (error: unknown) {

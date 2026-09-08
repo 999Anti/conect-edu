@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import AuthHydrator from '@components/auth/AuthHydrator';
+import ThemeManager from '@components/theme/ThemeManager';
 
 export const metadata: Metadata = {
   title: 'CONECT EDU - School Admissions Platform',
@@ -15,8 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-white text-secondary-900">
+      <body>
         <AuthHydrator />
+        <ThemeManager />
         {children}
       </body>
     </html>

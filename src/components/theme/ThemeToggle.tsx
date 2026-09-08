@@ -2,24 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
+import { applyThemePreference, ThemePreference } from './ThemeManager';
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<ThemePreference>('system');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('conect-theme') as 'light' | 'dark' | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-
-    applyTheme(initialTheme);
+    const savedTheme = localStorage.getItem('conect-theme') as ThemePreference | null;
+    applyTheme(savedTheme || 'system');
   }, []);
 
-  const applyTheme = (nextTheme: 'light' | 'dark') => {
+  const applyTheme = (nextTheme: ThemePreference) => {
     setTheme(nextTheme);
     localStorage.setItem('conect-theme', nextTheme);
-    document.documentElement.dataset.theme = nextTheme;
-    document.documentElement.classList.toggle('dark', nextTheme === 'dark');
-    document.documentElement.style.colorScheme = nextTheme;
+    applyThemePreference(nextTheme);
+    window.dispatchEvent(new Event('conect-theme-change'));
   };
 
   const toggleTheme = () => {

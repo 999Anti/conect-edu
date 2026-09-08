@@ -10,6 +10,7 @@ export interface User {
   role: UserRole;
   canManageAdmins?: boolean;
   schoolPermission?: 'full' | 'admissions' | 'finance';
+  mustChangePassword?: boolean;
   isVerified: boolean;
   createdAt: string;
   updatedAt: string;

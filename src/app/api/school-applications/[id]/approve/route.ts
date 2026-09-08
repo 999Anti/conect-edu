@@ -29,7 +29,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
   });
   const admin: StoredUser = {
     id: randomUUID(), firstName: application.contactFirstName, lastName: application.contactLastName,
-    email: application.contactEmail, phone: application.contactPhone, role: 'school_admin', schoolId,
+    email: application.contactEmail, phone: application.contactPhone, role: 'school_admin', schoolId, mustChangePassword: true,
     isVerified: true, createdAt: now, updatedAt: now, passwordHash: hashPassword(body.password),
   };
   database.users.push(admin);

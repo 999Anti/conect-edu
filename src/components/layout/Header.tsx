@@ -49,6 +49,7 @@ export default function Header() {
               <Link href={dashboardHref} className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
                 Dashboard
               </Link>
+              <Link href="/settings" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">Settings</Link>
               <Button onClick={handleLogout} variant="outline" size="sm">
                 Logout
               </Button>
@@ -119,6 +120,7 @@ export default function Header() {
                 >
                   Dashboard
                 </Link>
+                <Link href="/settings" className="block text-secondary-700 hover:text-primary-600" onClick={() => setIsOpen(false)}>Settings</Link>
                 <Button onClick={handleLogout} variant="outline" fullWidth>
                   Logout
                 </Button>
