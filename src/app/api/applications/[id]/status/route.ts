@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ApplicationStatus } from '@app-types/index';
 import { getAuthenticatedUser } from '@/lib/server/auth';
-import { readDatabase, writeDatabase } from '@/lib/server/database';
+import { addAuditLog, addNotification, readDatabase, writeDatabase } from '@/lib/server/database';
 import { badRequest, forbidden, notFound, unauthorized } from '@/lib/server/http';
 
 const validStatuses: ApplicationStatus[] = ['draft', 'payment_required', 'submitted', 'under_review', 'shortlisted', 'interview_scheduled', 'assessment_scheduled', 'accepted', 'rejected', 'withdrawn'];
@@ -22,6 +22,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   application.assessmentDate = assessmentDate || undefined;
   application.decisionNote = decisionNote?.trim() || undefined;
   application.updatedAt = new Date().toISOString();
+  addNotification(database, { userId: application.userId, title: 'Application update', message: `Your application ${application.applicationId} is now ${status.replace(/_/g, ' ')}.` });
+  addAuditLog(database, { actorId: user.id, action: 'updated application status', entityType: 'application', entityId: application.id, detail: `${application.applicationId} set to ${status}` });
   await writeDatabase(database);
   return NextResponse.json(application);
 }

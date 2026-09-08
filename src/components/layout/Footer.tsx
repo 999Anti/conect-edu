@@ -15,7 +15,7 @@ export default function Footer() {
               CONECT <span className="text-primary-400">EDU</span>
             </h3>
             <p className="text-secondary-400 text-sm">
-              Connecting Nigerian parents and students with leading private secondary schools.
+              Connecting Nigerian parents and guardians with leading private secondary schools.
             </p>
           </div>
 
@@ -34,8 +34,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/apply" className="hover:text-white transition-colors">
-                  Apply Now
+                <Link href="/register" className="hover:text-white transition-colors">
+                  Create Parent Account
                 </Link>
               </li>
               <li>
@@ -51,35 +51,30 @@ export default function Footer() {
             <h4 className="font-semibold mb-4">For Schools</h4>
             <ul className="space-y-2 text-sm text-secondary-400">
               <li>
-                <Link href="/schools" className="hover:text-white transition-colors">
-                  Explore Schools
+                <Link href="/school-apply" className="hover:text-white transition-colors">
+                  List Your School
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-white transition-colors">
-                  Features
+                <Link href="/school-login" className="hover:text-white transition-colors">
+                  School Login
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Support */}
           <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
+            <h4 className="font-semibold mb-4">Support</h4>
             <ul className="space-y-2 text-sm text-secondary-400">
               <li>
-                <Link href="/privacy" className="hover:text-white transition-colors">
-                  Privacy Policy
+                <Link href="/faq" className="hover:text-white transition-colors">
+                  Help Centre
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-white transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-white transition-colors">
-                  Contact Us
+                <Link href="/platform-login" className="hover:text-white transition-colors">
+                  Platform Login
                 </Link>
               </li>
             </ul>

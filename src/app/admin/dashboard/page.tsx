@@ -15,7 +15,7 @@ export default function SchoolAdminDashboard() {
   const { user, isAuthenticated, isLoading } = useStore();
   const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
-  useEffect(() => { if (!isLoading && (!isAuthenticated || user?.role !== 'school_admin')) router.replace('/login'); }, [isLoading, isAuthenticated, user?.role, router]);
+  useEffect(() => { if (!isLoading && (!isAuthenticated || user?.role !== 'school_admin')) router.replace('/school-login'); }, [isLoading, isAuthenticated, user?.role, router]);
   useEffect(() => { if (user?.role === 'school_admin') applicationService.getUserApplications().then(setApplications).catch(() => setApplications([])); }, [user?.role]);
   const stats = [
     ['Total applications', applications.length],

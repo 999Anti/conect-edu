@@ -21,7 +21,7 @@ export default function Home() {
                   <span className="text-primary-600"> Apply with Ease.</span>
                 </h1>
                 <p className="text-xl text-secondary-600 mb-8">
-                  Discover Nigeria's leading private secondary schools, explore their campuses, compare your options, and apply online from the comfort of your home.
+                  Discover Nigeria's leading private secondary schools, explore their campuses, compare your options, and apply online as a parent or guardian.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link href="/schools">

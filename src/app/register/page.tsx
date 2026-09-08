@@ -7,7 +7,6 @@ import Header from '@components/layout/Header';
 import Footer from '@components/layout/Footer';
 import Button from '@components/ui/Button';
 import Input from '@components/ui/Input';
-import Select from '@components/ui/Select';
 import { Card, CardBody, CardHeader } from '@components/ui/Card';
 import authService from '@services/auth';
 import { useStore } from '@store/auth';
@@ -50,7 +49,7 @@ export default function Register() {
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
-        role: formData.role as 'student' | 'parent',
+        role: 'parent',
       });
 
       setUser(response.user);
@@ -71,9 +70,9 @@ export default function Register() {
         <div className="container max-w-md mx-auto px-4">
           <Card>
             <CardHeader>
-              <h1 className="text-2xl font-bold text-secondary-900">Create Parent/Student Account</h1>
+              <h1 className="text-2xl font-bold text-secondary-900">Create Parent Account</h1>
               <p className="text-secondary-600 text-sm mt-1">
-                Only parents and students can register instantly for school applications.
+                Create an account to manage your child&apos;s school applications.
               </p>
             </CardHeader>
 
@@ -85,7 +84,7 @@ export default function Register() {
               )}
 
               <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-                School admins and platform staff accounts are created by the platform team and are not available for self-registration.
+                School and platform administrator accounts are issued by CONECT EDU and cannot be self-registered.
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -122,17 +121,6 @@ export default function Register() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                />
-
-                <Select
-                  label="I am a"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  options={[
-                    { value: 'parent', label: 'Parent' },
-                    { value: 'student', label: 'Student' },
-                  ]}
                 />
 
                 <Input

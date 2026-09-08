@@ -12,7 +12,7 @@ export interface RegisterRequest {
   email: string;
   password: string;
   phone: string;
-  role: 'student' | 'parent';
+  role: 'parent';
 }
 
 export interface AuthResponse {
@@ -22,8 +22,8 @@ export interface AuthResponse {
 
 class AuthService {
   async register(data: RegisterRequest): Promise<AuthResponse> {
-    if (data.role !== 'student' && data.role !== 'parent') {
-      throw new Error('Only parent and student accounts can self-register.');
+    if (data.role !== 'parent') {
+      throw new Error('Only parent accounts can self-register.');
     }
 
     const response = await api.post<AuthResponse>('/auth/register', data);

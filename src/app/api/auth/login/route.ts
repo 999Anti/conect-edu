@@ -7,8 +7,9 @@ export async function POST(request: NextRequest) {
   const { email, password } = await request.json() as { email?: string; password?: string };
   if (!email || !password) return badRequest('Email and password are required.');
   const database = await readDatabase();
-  const user = database.users.find((candidate) => candidate.email === email.trim().toLowerCase());
-  if (!user || !verifyPassword(password, user.passwordHash)) return unauthorized();
+  const user = database.users.find(
+    (candidate) => candidate.email === email.trim().toLowerCase() && verifyPassword(password, candidate.passwordHash)
+  );
+  if (!user) return unauthorized();
   return NextResponse.json({ user: publicUser(user), token: createToken(user.id) });
 }
-

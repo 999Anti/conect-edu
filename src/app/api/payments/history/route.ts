@@ -7,6 +7,5 @@ export async function GET(request: NextRequest) {
   const database = await readDatabase();
   const user = getAuthenticatedUser(request, database.users);
   if (!user) return unauthorized();
-  return NextResponse.json(database.payments.filter((payment) => payment.userId === user.id));
+  return NextResponse.json(user.role === 'conect_admin' ? database.payments : database.payments.filter((payment) => payment.userId === user.id));
 }
-

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CONECT EDU Operations Manual</title>
+  <style>body{font-family:Arial,sans-serif;line-height:1.5;margin:48px;max-width:900px;color:#172033}h1{font-size:30px}h2{margin-top:34px;border-bottom:1px solid #ddd;padding-bottom:6px;color:#4c1d95}h3{margin-top:22px}li{margin:6px 0}.note{background:#f5f3ff;padding:14px;border-left:4px solid #7c3aed}</style>
+</head>
+<body>
+  <h1>CONECT EDU Operations Manual</h1>
+  <p>This manual describes how each area of the CONECT EDU platform operates for parents, schools, and platform administrators.</p>
+
+  <h2>1. Platform Roles</h2>
+  <ul><li><strong>Parent:</strong> creates an account, explores schools, submits applications for a child, pays fees, uploads supporting documents, and receives updates.</li><li><strong>School administrator:</strong> manages one approved school profile, its branches, applications, admission decisions, and staff access.</li><li><strong>School staff:</strong> signs in to the school portal with the access level issued by a school manager.</li><li><strong>Platform administrator:</strong> monitors the platform, approves schools, manages users and payments, exports reports, and reviews activity.</li></ul>
+
+  <h2>2. Parent Registration and Sign-in</h2>
+  <ol><li>A parent registers with their name, email address, phone number, and password.</li><li>The platform creates a parent account. Student accounts are not used; parents act on behalf of their children.</li><li>Parents sign in through the main login page and are taken to their dashboard.</li><li>The Forgot Password page accepts an email address and confirms the reset request. Email or OTP delivery is ready to be connected later to a messaging provider.</li></ol>
+
+  <h2>3. Discovering and Comparing Schools</h2>
+  <ol><li>Parents use the Schools page to browse listed institutions and narrow results by available filters.</li><li>Each school page displays its profile, academics, admissions instructions, requirements, documents, facilities, gallery, and contact information.</li><li>The Compare page allows a parent to compare two schools side by side.</li><li>Parents may save schools in their browser for quick access later.</li></ol>
+
+  <h2>4. School Branches and Capacity</h2>
+  <ol><li>A school is listed once, even where it operates several campuses.</li><li>In School Profile, a school administrator adds each branch on its own line using: branch name, street address, city, state, capacity, application deadline, and application fee.</li><li>Branches appear on the public school page, and the parent chooses a preferred branch during the application.</li><li>The platform blocks applications to a branch after its deadline or after its capacity has been reached.</li><li>The selected branch is saved with the application and displayed to the admissions team.</li></ol>
+
+  <h2>5. Parent Application Process</h2>
+  <ol><li>The parent opens a school page and selects Apply Now.</li><li>The application collects child details, current school/class, preferred class, and parent contact details.</li><li>For multi-branch schools, the parent must select a branch.</li><li>School-created questions are displayed and required answers are checked by both the browser and the server.</li><li>The parent reviews the application, then proceeds to payment where applicable.</li><li>After payment is successful, the parent submits the application to the school.</li></ol>
+
+  <h2>6. Application Documents and Status</h2>
+  <ol><li>On an application details page, parents can upload supported documents such as birth certificates, passport photographs, school reports, transfer documents, and other files.</li><li>Documents are stored with the individual application and are only available to the parent, the relevant school, and authorized platform administrators.</li><li>Parents can view application status, assessment details, decision notes, branch selection, and payment information.</li><li>When a school changes an application status, the parent receives an in-app update on the parent dashboard.</li></ol>
+
+  <h2>7. School Onboarding and Login</h2>
+  <ol><li>A prospective school submits its onboarding form with contact and location information.</li><li>A platform administrator reviews the request and either approves or rejects it.</li><li>Approval creates the school listing and its initial school administrator account.</li><li>Approved schools use the School Administrator Login page, not the parent login page.</li></ol>
+
+  <h2>8. School Profile and Admissions Controls</h2>
+  <ol><li>School administrators maintain their public description, contact details, curricula, facilities, programmes, admission instructions, and admission requirements.</li><li>Schools may add required custom questions for all parent applications.</li><li>Schools may upload a logo, cover image, gallery images, and admission documents for parents to download.</li><li>Each update is recorded in the platform activity log.</li></ol>
+
+  <h2>9. School Applications and Staff</h2>
+  <ol><li>School users see only applications submitted to their own school.</li><li>The Applications page supports search plus status and branch filters.</li><li>Admissions staff can set a decision, an assessment date where relevant, and an optional note for the parent.</li><li>School managers may create staff accounts. Admissions officers handle admissions work, finance officers have finance-oriented access, and school managers have full school management access.</li><li>New submitted applications create in-app notifications for school administrators.</li></ol>
+
+  <h2>10. Platform Administration</h2>
+  <ol><li>All platform administrators can monitor schools, users, applications, payments, and reports.</li><li>The configured owner administrator can create other platform administrators and grant them permission to manage administrator accounts.</li><li>Platform administrators approve school onboarding requests and monitor existing schools.</li><li>Reports can be exported as CSV files for users, schools, applications, and payments.</li><li>The Activity Log records key changes, including application status changes, school profile updates, staff creation, and application submission.</li></ol>
+
+  <h2>11. Payments</h2>
+  <ol><li>An application calculates the applicable application fee and processing fee.</li><li>Branch-specific application fees override the standard fee when configured.</li><li>The parent must have a successful payment before an application can be submitted to the school.</li><li>Platform administrators can review payment records, while school access remains limited to that school.</li></ol>
+
+  <h2>12. Data, Privacy, and Security</h2>
+  <ol><li>The Privacy Notice and Terms of Use are available from the public site.</li><li>Passwords are not displayed in the interface. New accounts require passwords of at least 12 characters.</li><li>Access checks limit records to the parent, the applicable school, or authorized platform administrators.</li><li>For a production launch, connect managed cloud storage for documents, a managed database, automated backups, and an email/SMS provider for password resets and notifications.</li></ol>
+  <p class="note"><strong>Operational note:</strong> The application is ready for demonstration use. Production use should include external backups, secure cloud file storage, and configured email/SMS delivery.</p>
+</body>
+</html>

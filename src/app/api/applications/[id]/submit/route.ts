@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthenticatedUser } from '@/lib/server/auth';
-import { readDatabase, writeDatabase } from '@/lib/server/database';
+import { addAuditLog, addNotification, readDatabase, writeDatabase } from '@/lib/server/database';
 import { badRequest, notFound, unauthorized } from '@/lib/server/http';
 
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
@@ -13,7 +13,9 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
   application.status = 'submitted';
   application.submittedAt = new Date().toISOString();
   application.updatedAt = application.submittedAt;
+  const schoolAdmins = database.users.filter((item) => item.role === 'school_admin' && item.schoolId === application.schoolId);
+  schoolAdmins.forEach((admin) => addNotification(database, { userId: admin.id, title: 'New application', message: `${application.studentFirstName} ${application.studentLastName} submitted an application${application.branchName ? ` for ${application.branchName}` : ''}.` }));
+  addAuditLog(database, { actorId: user.id, action: 'submitted application', entityType: 'application', entityId: application.id, detail: application.applicationId });
   await writeDatabase(database);
   return NextResponse.json(application);
 }
-

@@ -106,7 +106,7 @@ export const DOCUMENT_TYPES = [
 ] as const;
 
 // User Roles
-export const USER_ROLES = ['student', 'parent', 'school_admin', 'conect_admin'] as const;
+export const USER_ROLES = ['parent', 'school_admin', 'conect_admin'] as const;
 
 // API Endpoints
 export const API_ENDPOINTS = {

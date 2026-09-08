@@ -10,6 +10,7 @@ import { Menu, X } from 'lucide-react';
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useStore();
+  const dashboardHref = user?.role === 'school_admin' ? '/admin/dashboard' : user?.role === 'conect_admin' ? '/conect/dashboard' : '/dashboard';
 
   const handleLogout = () => {
     logout();
@@ -39,10 +40,13 @@ export default function Header() {
           <Link href="/school-apply" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
             List Your School
           </Link>
+          <Link href="/school-login" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
+            School Login
+          </Link>
 
           {user ? (
             <div className="flex items-center gap-4">
-              <Link href="/dashboard" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
+              <Link href={dashboardHref} className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
                 Dashboard
               </Link>
               <Button onClick={handleLogout} variant="outline" size="sm">
@@ -102,11 +106,14 @@ export default function Header() {
             <Link href="/school-apply" className="block text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400" onClick={() => setIsOpen(false)}>
               List Your School
             </Link>
+            <Link href="/school-login" className="block text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400" onClick={() => setIsOpen(false)}>
+              School Login
+            </Link>
 
             {user ? (
               <>
                 <Link
-                  href="/dashboard"
+                  href={dashboardHref}
                   className="block text-secondary-700 hover:text-primary-600"
                   onClick={() => setIsOpen(false)}
                 >

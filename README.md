@@ -11,7 +11,7 @@ Copy `.env.example` to `.env.local`, set a unique `AUTH_SECRET`, and add `PAYSTA
 ## Project Overview
 
 CONECT EDU is a three-sided platform connecting:
-- **Parents/Students** - Discover, compare, and apply to schools
+- **Parents/Guardians** - Discover, compare, and apply to schools
 - **School Administrators** - Manage applications and school information
 - **CONECT Admins** - Oversee the platform and manage schools
 

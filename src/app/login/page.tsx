@@ -76,7 +76,7 @@ export default function Login() {
               )}
 
               <div className="mb-5 rounded-lg border border-primary-100 bg-primary-50 px-3 py-2 text-xs text-primary-700">
-                Parents and students can log in here to apply for school places.
+                Parents can log in here to manage their children&apos;s school applications.
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -108,9 +108,7 @@ export default function Login() {
                     />
                     <span className="text-sm text-secondary-700">Remember me</span>
                   </label>
-                  <Link href="/forgot-password" className="text-sm text-primary-600 hover:text-primary-700">
-                    Forgot password?
-                  </Link>
+                  <Link href="/forgot-password" className="text-sm text-primary-600 hover:text-primary-700">Forgot password?</Link>
                 </div>
 
                 <Button
@@ -123,13 +121,16 @@ export default function Login() {
               </form>
 
               <p className="text-center text-sm text-secondary-600 mt-6">
-                Don&apos;t have a parent/student account?{' '}
+                Don&apos;t have a parent account?{' '}
                 <Link href="/register" className="text-primary-600 font-semibold hover:text-primary-700">
                   Register here
                 </Link>
               </p>
               <p className="mt-3 text-center text-sm text-secondary-600">
                 Platform administrator? <Link href="/platform-login" className="font-semibold text-primary-600 hover:text-primary-700">Use platform login</Link>.
+              </p>
+              <p className="mt-3 text-center text-sm text-secondary-600">
+                School administrator? <Link href="/school-login" className="font-semibold text-primary-600 hover:text-primary-700">Use school login</Link>.
               </p>
             </CardBody>
           </Card>

@@ -33,10 +33,12 @@ export default function ApplyPage({ params }: { params: { schoolId: string } }) 
     currentSchool: '',
     currentClass: '',
     desiredClass: '',
+    branchId: '',
     parentName: '',
     parentEmail: user?.email || '',
     parentPhone: '',
     parentAddress: '',
+    customAnswers: [] as Array<{ questionId: string; question: string; answer: string }>,
   });
 
   useEffect(() => {
@@ -90,6 +92,8 @@ export default function ApplyPage({ params }: { params: { schoolId: string } }) 
       setIsSubmitting(false);
     }
   };
+
+  const updateCustomAnswer = (questionId: string, question: string, answer: string) => setFormData((current) => ({ ...current, customAnswers: [...current.customAnswers.filter((item) => item.questionId !== questionId), { questionId, question, answer }] }));
 
   if (isLoading || isAuthLoading) {
     return (
@@ -227,6 +231,8 @@ export default function ApplyPage({ params }: { params: { schoolId: string } }) 
                       required
                     />
                   </div>
+
+                  {school.branches?.length ? <Select label="Preferred school branch" name="branchId" value={formData.branchId} onChange={handleInputChange} options={[{ value: '', label: 'Select a branch' }, ...school.branches.map((branch) => ({ value: branch.id, label: `${branch.name} - ${branch.city}, ${branch.state}` }))]} required /> : null}
                 </CardBody>
               </Card>
             )}
@@ -274,6 +280,7 @@ export default function ApplyPage({ params }: { params: { schoolId: string } }) 
                     rows={4}
                     required
                   />
+                  {school.applicationQuestions?.map((question) => <Textarea key={question.id} label={question.question} value={formData.customAnswers.find((item) => item.questionId === question.id)?.answer || ''} onChange={(event) => updateCustomAnswer(question.id, question.question, event.target.value)} rows={3} required={question.required} />)}
                 </CardBody>
               </Card>
             )}
@@ -302,6 +309,7 @@ export default function ApplyPage({ params }: { params: { schoolId: string } }) 
                       <p>
                         <span className="font-semibold">Desired Class:</span> {formData.desiredClass}
                       </p>
+                      {formData.branchId && <p><span className="font-semibold">Preferred Branch:</span> {school.branches?.find((branch) => branch.id === formData.branchId)?.name}</p>}
                     </div>
                   </div>
 

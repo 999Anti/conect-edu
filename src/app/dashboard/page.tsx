@@ -13,12 +13,15 @@ import { FileText, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import applicationService from '@services/applications';
 import { Application } from '@app-types/index';
+import api from '@services/api';
+import { Notification } from '@app-types/index';
 
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading: isAuthLoading } = useStore();
   const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
     if (isAuthLoading) return;
@@ -28,6 +31,7 @@ export default function Dashboard() {
     }
 
     fetchApplications();
+    api.get<Notification[]>('/notifications').then((response) => setNotifications(response.data)).catch(() => undefined);
   }, [isAuthenticated, isAuthLoading, router]);
 
   const fetchApplications = async () => {
@@ -129,6 +133,7 @@ export default function Dashboard() {
           </div>
 
           {/* Applications Section */}
+          {notifications.length > 0 && <section className="mb-12"><div className="mb-4 flex items-center justify-between"><h2 className="text-2xl font-bold text-secondary-900">Updates</h2><Button size="sm" variant="outline" onClick={() => api.patch('/notifications', {}).then(() => setNotifications((items) => items.map((item) => ({ ...item, read: true }))))}>Mark all read</Button></div><div className="space-y-3">{notifications.slice(0, 5).map((item) => <Card key={item.id}><CardBody><p className={`font-semibold ${item.read ? 'text-secondary-700' : 'text-primary-700'}`}>{item.title}</p><p className="mt-1 text-sm text-secondary-600">{item.message}</p></CardBody></Card>)}</div></section>}
           <div className="mb-12">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-secondary-900">My Applications</h2>

@@ -3,6 +3,7 @@ import { Application, ApplicationStatus } from '@app-types/index';
 
 export interface CreateApplicationRequest {
   schoolId: string;
+  branchId?: string;
   desiredClass: string;
   studentFirstName: string;
   studentLastName: string;
@@ -15,6 +16,7 @@ export interface CreateApplicationRequest {
   parentEmail: string;
   parentPhone: string;
   parentAddress: string;
+  customAnswers?: Array<{ questionId: string; question: string; answer: string }>;
 }
 
 export interface SubmitApplicationRequest {
@@ -65,15 +67,7 @@ class ApplicationService {
     formData.append('file', file);
     formData.append('documentType', documentType);
 
-    await api.post(
-      `/applications/${applicationId}/documents`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
+    await api.post(`/applications/${applicationId}/documents`, formData);
   }
 
   async updateApplicationStatus(

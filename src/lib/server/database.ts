@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'fs/promises';
+import { randomUUID } from 'crypto';
 import path from 'path';
-import { Application, Payment, School, SchoolApplication, User } from '@app-types/index';
+import { Application, AuditLog, Notification, Payment, School, SchoolApplication, User } from '@app-types/index';
 
 export interface StoredUser extends User {
   passwordHash: string;
@@ -13,9 +14,12 @@ export interface Database {
   applications: Application[];
   payments: Payment[];
   schoolApplications: SchoolApplication[];
+  notifications: Notification[];
+  auditLogs: AuditLog[];
 }
 
 const databasePath = path.join(process.cwd(), '.data', 'conect-edu.json');
+export const uploadPath = path.join(process.cwd(), 'public', 'uploads');
 
 const school = (
   id: string,
@@ -57,6 +61,8 @@ const initialDatabase = (): Database => ({
   applications: [],
   payments: [],
   schoolApplications: [],
+  notifications: [],
+  auditLogs: [],
   schools: [
     school('greenfield-college', 'Greenfield College', 'Lagos', 'Lekki', 'mixed', 'mixed', 'mixed', 'A co-educational secondary school focused on strong academics, character, and practical learning.', ['Science laboratories', 'Library', 'Sports centre', 'School bus']),
     school('cedar-girls', 'Cedar Girls Academy', 'Oyo', 'Ibadan', 'nigerian', 'boarding', 'female', 'A welcoming boarding school that equips young women for academic excellence and leadership.', ['Boarding house', 'ICT lab', 'Music studio', 'Clinic']),
@@ -71,6 +77,8 @@ export async function readDatabase(): Promise<Database> {
   try {
     const database = JSON.parse(await readFile(databasePath, 'utf8')) as Database;
     database.schoolApplications ||= [];
+    database.notifications ||= [];
+    database.auditLogs ||= [];
     await ensurePlatformAdmin(database);
     return database;
   } catch (error: unknown) {
@@ -81,10 +89,37 @@ export async function readDatabase(): Promise<Database> {
   }
 }
 
+export function addAuditLog(database: Database, entry: Omit<AuditLog, 'id' | 'createdAt'>) {
+  database.auditLogs.unshift({ id: randomUUID(), createdAt: new Date().toISOString(), ...entry });
+}
+
+export function addNotification(database: Database, entry: Omit<Notification, 'id' | 'read' | 'createdAt'>) {
+  database.notifications.unshift({ id: randomUUID(), read: false, createdAt: new Date().toISOString(), ...entry });
+}
+
 async function ensurePlatformAdmin(database: Database): Promise<void> {
   const email = process.env.PLATFORM_ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.PLATFORM_ADMIN_PASSWORD;
-  if (!email || !password || database.users.some((user) => user.role === 'conect_admin')) return;
+  if (!email || !password) return;
+  const configuredAdmin = database.users.find((user) => user.email === email && user.role === 'conect_admin');
+  if (configuredAdmin) {
+    const { hashPassword, verifyPassword } = await import('./auth');
+    let changed = false;
+    if (!verifyPassword(password, configuredAdmin.passwordHash)) {
+      configuredAdmin.passwordHash = hashPassword(password);
+      configuredAdmin.updatedAt = new Date().toISOString();
+      changed = true;
+    }
+    if (!configuredAdmin.canManageAdmins) {
+      configuredAdmin.canManageAdmins = true;
+      configuredAdmin.updatedAt = new Date().toISOString();
+      changed = true;
+    }
+    if (changed) await writeDatabase(database);
+    return;
+  }
+  if (database.users.some((user) => user.email === email)) return;
+  if (database.users.some((user) => user.role === 'conect_admin')) return;
   const now = new Date().toISOString();
   database.users.push({
     id: `platform-admin-${Date.now()}`,
@@ -93,6 +128,7 @@ async function ensurePlatformAdmin(database: Database): Promise<void> {
     email,
     phone: '',
     role: 'conect_admin',
+    canManageAdmins: true,
     isVerified: true,
     createdAt: now,
     updatedAt: now,

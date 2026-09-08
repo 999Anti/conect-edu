@@ -1,5 +1,5 @@
 // User & Auth Types
-export type UserRole = 'student' | 'parent' | 'school_admin' | 'conect_admin';
+export type UserRole = 'parent' | 'school_admin' | 'conect_admin';
 
 export interface User {
   id: string;
@@ -8,6 +8,8 @@ export interface User {
   lastName: string;
   phone?: string;
   role: UserRole;
+  canManageAdmins?: boolean;
+  schoolPermission?: 'full' | 'admissions' | 'finance';
   isVerified: boolean;
   createdAt: string;
   updatedAt: string;
@@ -43,12 +45,28 @@ export interface School {
   admissionInstructions?: string;
   website?: string;
   gallery?: string[];
+  admissionDocuments?: Array<{ name: string; url: string }>;
+  applicationQuestions?: Array<{ id: string; question: string; required: boolean }>;
+  branches?: SchoolBranch[];
   rating?: number;
   applicationCount?: number;
   verified: boolean;
   verificationStatus: 'pending' | 'under_review' | 'verified' | 'suspended' | 'rejected';
   createdAt: string;
   updatedAt: string;
+}
+
+export interface SchoolBranch {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  capacity?: number;
+  applicationDeadline?: string;
+  applicationFee?: number;
+  processingFee?: number;
+  admissionRequirements?: string[];
 }
 
 export interface SchoolApplication {
@@ -91,6 +109,8 @@ export interface Application {
   applicationId: string; // Reference number like CE-2026-000123
   userId: string;
   schoolId: string;
+  branchId?: string;
+  branchName?: string;
   status: ApplicationStatus;
   desiredClass: string;
   studentFirstName: string;
@@ -130,6 +150,25 @@ export interface CustomAnswer {
   questionId: string;
   question: string;
   answer: string;
+}
+
+export interface Notification {
+  id: string;
+  userId: string;
+  title: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+}
+
+export interface AuditLog {
+  id: string;
+  actorId: string;
+  action: string;
+  entityType: 'application' | 'school' | 'user' | 'payment';
+  entityId: string;
+  detail: string;
+  createdAt: string;
 }
 
 // Tour Types

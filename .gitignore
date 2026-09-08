@@ -1,6 +1,7 @@
 node_modules/
 .next/
 .data/
+public/uploads/
+docs/*.docx
 .env.local
 .env*.local
-
