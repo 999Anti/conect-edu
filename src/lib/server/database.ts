@@ -20,6 +20,7 @@ export interface Database {
 
 const databasePath = path.join(process.cwd(), '.data', 'conect-edu.json');
 export const uploadPath = path.join(process.cwd(), 'public', 'uploads');
+const seededAnnualFees: Record<string, number> = { 'greenfield-college': 850000, 'cedar-girls': 1200000, 'summit-boys': 1750000, 'riverside-school': 2100000, 'heritage-college': 350000, 'northstar-academy': 650000 };
 
 const school = (
   id: string,
@@ -30,7 +31,8 @@ const school = (
   boardingOption: School['boardingOption'],
   gender: School['gender'],
   description: string,
-  facilities: string[]
+  facilities: string[],
+  annualTuitionFee?: number
 ): School => {
   const now = new Date().toISOString();
   return {
@@ -47,6 +49,7 @@ const school = (
     gender,
     description,
     facilities,
+    annualTuitionFee,
     rating: 4.5,
     applicationCount: 0,
     verified: true,
@@ -64,12 +67,12 @@ const initialDatabase = (): Database => ({
   notifications: [],
   auditLogs: [],
   schools: [
-    school('greenfield-college', 'Greenfield College', 'Lagos', 'Lekki', 'mixed', 'mixed', 'mixed', 'A co-educational secondary school focused on strong academics, character, and practical learning.', ['Science laboratories', 'Library', 'Sports centre', 'School bus']),
-    school('cedar-girls', 'Cedar Girls Academy', 'Oyo', 'Ibadan', 'nigerian', 'boarding', 'female', 'A welcoming boarding school that equips young women for academic excellence and leadership.', ['Boarding house', 'ICT lab', 'Music studio', 'Clinic']),
-    school('summit-boys', 'Summit Boys College', 'Federal Capital Territory', 'Abuja', 'igcse', 'boarding', 'male', 'A values-led boys school offering a balanced British and Nigerian curriculum.', ['Boarding house', 'Football pitch', 'STEM lab', 'Dining hall']),
-    school('riverside-school', 'Riverside International School', 'Rivers', 'Port Harcourt', 'ib', 'day', 'mixed', 'An international day school for curious learners and globally minded families.', ['Art studio', 'Swimming pool', 'Library', 'Robotics club']),
-    school('heritage-college', 'Heritage College', 'Ogun', 'Abeokuta', 'nigerian', 'day', 'mixed', 'A community-centred school providing a rigorous and affordable secondary education.', ['Library', 'Science laboratories', 'Basketball court']),
-    school('northstar-academy', 'Northstar Academy', 'Kaduna', 'Kaduna', 'mixed', 'mixed', 'mixed', 'A modern school blending Nigerian and international pathways for future-ready learners.', ['Makerspace', 'Debate club', 'Boarding house', 'Computer lab']),
+    school('greenfield-college', 'Greenfield College', 'Lagos', 'Lekki', 'mixed', 'mixed', 'mixed', 'A co-educational secondary school focused on strong academics, character, and practical learning.', ['Science laboratories', 'Library', 'Sports centre', 'School bus'], 850000),
+    school('cedar-girls', 'Cedar Girls Academy', 'Oyo', 'Ibadan', 'nigerian', 'boarding', 'female', 'A welcoming boarding school that equips young women for academic excellence and leadership.', ['Boarding house', 'ICT lab', 'Music studio', 'Clinic'], 1200000),
+    school('summit-boys', 'Summit Boys College', 'Federal Capital Territory', 'Abuja', 'igcse', 'boarding', 'male', 'A values-led boys school offering a balanced British and Nigerian curriculum.', ['Boarding house', 'Football pitch', 'STEM lab', 'Dining hall'], 1750000),
+    school('riverside-school', 'Riverside International School', 'Rivers', 'Port Harcourt', 'ib', 'day', 'mixed', 'An international day school for curious learners and globally minded families.', ['Art studio', 'Swimming pool', 'Library', 'Robotics club'], 2100000),
+    school('heritage-college', 'Heritage College', 'Ogun', 'Abeokuta', 'nigerian', 'day', 'mixed', 'A community-centred school providing a rigorous and affordable secondary education.', ['Library', 'Science laboratories', 'Basketball court'], 350000),
+    school('northstar-academy', 'Northstar Academy', 'Kaduna', 'Kaduna', 'mixed', 'mixed', 'mixed', 'A modern school blending Nigerian and international pathways for future-ready learners.', ['Makerspace', 'Debate club', 'Boarding house', 'Computer lab'], 650000),
   ],
 });
 
@@ -79,11 +82,19 @@ export async function readDatabase(): Promise<Database> {
     database.schoolApplications ||= [];
     database.notifications ||= [];
     database.auditLogs ||= [];
+    let changed = false;
+    database.schools.forEach((school) => {
+      if (school.annualTuitionFee === undefined && seededAnnualFees[school.id]) {
+        school.annualTuitionFee = seededAnnualFees[school.id];
+        changed = true;
+      }
+    });
     const missingPasswordChangeFlags = database.users.filter((user) => user.role === 'school_admin' && user.mustChangePassword === undefined);
     if (missingPasswordChangeFlags.length) {
       missingPasswordChangeFlags.forEach((user) => { user.mustChangePassword = true; });
       await writeDatabase(database);
     }
+    if (changed) await writeDatabase(database);
     await ensurePlatformAdmin(database);
     return database;
   } catch (error: unknown) {

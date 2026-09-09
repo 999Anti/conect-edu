@@ -46,6 +46,7 @@ export interface School {
   admissionRequirements?: string[];
   admissionInstructions?: string;
   website?: string;
+  annualTuitionFee?: number;
   gallery?: string[];
   admissionDocuments?: Array<{ name: string; url: string }>;
   applicationFields?: ApplicationFormField[];

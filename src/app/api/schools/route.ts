@@ -8,9 +8,13 @@ export async function GET(request: NextRequest) {
   const limit = Math.min(100, Math.max(1, Number(searchParams.get('limit') || 12)));
   const database = await readDatabase();
   const fields = ['state', 'city', 'curriculum', 'boardingOption', 'gender', 'schoolType'] as const;
+  const minFees = Number(searchParams.get('minFees') || 0);
+  const maxFees = Number(searchParams.get('maxFees') || 0);
   const filtered = database.schools.filter((school) => {
     if (!school.verified || school.verificationStatus !== 'verified') return false;
     if (query && !`${school.name} ${school.city} ${school.state} ${school.description}`.toLowerCase().includes(query)) return false;
+    if (minFees && (!school.annualTuitionFee || school.annualTuitionFee < minFees)) return false;
+    if (maxFees && (!school.annualTuitionFee || school.annualTuitionFee > maxFees)) return false;
     return fields.every((field) => !searchParams.get(field) || school[field] === searchParams.get(field));
   });
   return NextResponse.json({ data: filtered.slice((page - 1) * limit, page * limit), total: filtered.length, page, limit, totalPages: Math.max(1, Math.ceil(filtered.length / limit)) });

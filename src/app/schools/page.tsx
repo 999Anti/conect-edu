@@ -24,6 +24,7 @@ export default function Schools() {
     boardingOption: '',
     gender: '',
     schoolType: '',
+    maxFees: undefined,
     page: 1,
     limit: 12,
   });
@@ -131,6 +132,21 @@ export default function Schools() {
                     onChange={(e) => handleFilterChange('gender', e.target.value)}
                   />
 
+                  <Select
+                    label="Annual tuition budget"
+                    options={[
+                      { value: '', label: 'Any budget' },
+                      { value: '250000', label: 'Up to ₦250,000' },
+                      { value: '500000', label: 'Up to ₦500,000' },
+                      { value: '1000000', label: 'Up to ₦1,000,000' },
+                      { value: '2000000', label: 'Up to ₦2,000,000' },
+                      { value: '5000000', label: 'Up to ₦5,000,000' },
+                    ]}
+                    value={filters.maxFees?.toString() || ''}
+                    onChange={(e) => handleFilterChange('maxFees', e.target.value ? Number(e.target.value) : undefined)}
+                    helperText="Based on each school&apos;s published annual tuition."
+                  />
+
                   <Button
                     variant="outline"
                     fullWidth
@@ -141,6 +157,7 @@ export default function Schools() {
                       boardingOption: '',
                       gender: '',
                       schoolType: '',
+                      maxFees: undefined,
                       page: 1,
                       limit: 12,
                     })}
@@ -222,6 +239,7 @@ export default function Schools() {
                             <span>{school.boardingOption}</span>
                           </div>
                         </div>
+                        {school.annualTuitionFee !== undefined && <p className="text-sm font-semibold text-secondary-700">Annual tuition from ₦{school.annualTuitionFee.toLocaleString()}</p>}
 
                         {/* Description */}
                         <p className="text-secondary-600 text-sm line-clamp-2">
