@@ -21,19 +21,23 @@ export async function POST(request: NextRequest) {
   const user = getAuthenticatedUser(request, database.users);
   if (!user) return unauthorized();
   if (user.role !== 'parent') return badRequest('Only parent accounts can submit applications.');
-  const body = await request.json() as { schoolId?: string; customAnswers?: Array<{ questionId?: string; question?: string; answer?: string }> };
+  const body = await request.json() as { schoolId?: string; branchId?: string; customAnswers?: Array<{ questionId?: string; question?: string; answer?: string }> };
   if (!body.schoolId) return badRequest('Choose a school.');
   const school = database.schools.find((item) => item.id === body.schoolId);
   if (!school) return badRequest('The selected school is unavailable.');
   if (!school.applicationFields?.length) return badRequest('This school has not published an online application form yet.');
   if (!school.admissionFormFee || school.admissionFormFee < 30000) return badRequest('This school has not set a valid admission form fee yet.');
+  const branch = body.branchId ? school.branches?.find((item) => item.id === body.branchId) : undefined;
+  if (school.branches?.length && !branch) return badRequest('Please select one of this school\'s branches.');
+  if (branch?.applicationDeadline && new Date(branch.applicationDeadline).getTime() < Date.now()) return badRequest('Applications are closed for the selected branch.');
+  if (branch?.capacity !== undefined && database.applications.filter((item) => item.schoolId === school.id && item.branchId === branch.id && item.status !== 'rejected' && item.status !== 'withdrawn').length >= branch.capacity) return badRequest('The selected branch has reached its application capacity.');
   const customAnswers = (body.customAnswers || []).filter((answer) => answer.questionId && answer.question && answer.answer?.trim()).map((answer) => ({ questionId: answer.questionId!, question: answer.question!, answer: answer.answer!.trim() }));
   const missingAnswer = school.applicationFields.find((field) => field.required && field.type !== 'file' && !customAnswers.some((answer) => answer.questionId === field.id));
   if (missingAnswer) return badRequest(`Please complete: ${missingAnswer.label}.`);
   const now = new Date().toISOString();
   const application = {
     id: randomUUID(), applicationId: `CE-${new Date().getFullYear()}-${String(database.applications.length + 1).padStart(6, '0')}`,
-    userId: user.id, schoolId: school.id, status: 'draft' as const,
+    userId: user.id, schoolId: school.id, branchId: branch?.id, branchName: branch?.name, status: 'draft' as const,
     desiredClass: '', studentFirstName: '', studentLastName: '', studentDOB: '', studentGender: 'male' as const, studentNationality: '', currentSchool: '', currentClass: '', parentName: '', parentEmail: user.email, parentPhone: '', parentAddress: '',
     documents: [], customAnswers, paymentStatus: 'pending' as const, applicationFee: school.admissionFormFee, processingFee: Math.round(school.admissionFormFee * 0.1), totalAmount: Math.round(school.admissionFormFee * 1.1), createdAt: now, updatedAt: now,
   };

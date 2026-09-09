@@ -20,6 +20,15 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   if (!school) return notFound('School not found.');
   const body = await request.json() as Record<string, unknown>;
   if ('admissionFormFee' in body && (typeof body.admissionFormFee !== 'number' || body.admissionFormFee < 30000)) return badRequest('Admission form fees must be at least ₦30,000.');
+  if (Array.isArray(body.branches)) {
+    const seen = new Set<string>();
+    for (const branch of body.branches as Array<{ name?: string; city?: string; state?: string }>) {
+      if (!branch.name?.trim() || !branch.city?.trim() || !branch.state?.trim()) return badRequest('Every branch needs a name, city, and state.');
+      const key = `${branch.name.trim()}|${branch.city.trim()}|${branch.state.trim()}`.toLowerCase();
+      if (seen.has(key)) return badRequest('Duplicate branches are not allowed.');
+      seen.add(key);
+    }
+  }
   // Images, application forms, and resource files can only be changed through the
   // authenticated upload endpoint. This prevents arbitrary image URLs being shown.
   const editable = ['name', 'description', 'email', 'phone', 'address', 'state', 'city', 'area', 'website', 'annualTuitionFee', 'admissionFormFee', 'curriculum', 'boardingOption', 'gender', 'facilities', 'programmes', 'admissionRequirements', 'admissionInstructions', 'applicationFields', 'branches'];

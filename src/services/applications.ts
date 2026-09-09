@@ -3,6 +3,7 @@ import { Application, ApplicationStatus } from '@app-types/index';
 
 export interface CreateApplicationRequest {
   schoolId: string;
+  branchId?: string;
   customAnswers: Array<{ questionId: string; question: string; answer: string }>;
 }
 
