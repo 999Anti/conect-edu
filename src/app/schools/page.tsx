@@ -25,6 +25,7 @@ export default function Schools() {
     gender: '',
     schoolType: '',
     maxFees: undefined,
+    maxFormFee: undefined,
     page: 1,
     limit: 12,
   });
@@ -147,6 +148,8 @@ export default function Schools() {
                     helperText="Based on each school&apos;s published annual tuition."
                   />
 
+                  <Select label="Admission form budget" options={[{ value: '', label: 'Any form fee' }, { value: '30000', label: 'Up to ₦30,000' }, { value: '50000', label: 'Up to ₦50,000' }, { value: '75000', label: 'Up to ₦75,000' }, { value: '100000', label: 'Up to ₦100,000' }, { value: '200000', label: 'Up to ₦200,000' }]} value={filters.maxFormFee?.toString() || ''} onChange={(e) => handleFilterChange('maxFormFee', e.target.value ? Number(e.target.value) : undefined)} helperText="The school&apos;s form fee, before the 10% parent service charge." />
+
                   <Button
                     variant="outline"
                     fullWidth
@@ -158,6 +161,7 @@ export default function Schools() {
                       gender: '',
                       schoolType: '',
                       maxFees: undefined,
+                      maxFormFee: undefined,
                       page: 1,
                       limit: 12,
                     })}
@@ -240,6 +244,7 @@ export default function Schools() {
                           </div>
                         </div>
                         {school.annualTuitionFee !== undefined && <p className="text-sm font-semibold text-secondary-700">Annual tuition from ₦{school.annualTuitionFee.toLocaleString()}</p>}
+                        {school.admissionFormFee !== undefined && <p className="text-sm font-semibold text-secondary-700">Application form: ₦{school.admissionFormFee.toLocaleString()} + 10% service charge</p>}
 
                         {/* Description */}
                         <p className="text-secondary-600 text-sm line-clamp-2">

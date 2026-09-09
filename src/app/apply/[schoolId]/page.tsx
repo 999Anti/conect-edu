@@ -39,7 +39,6 @@ export default function ApplyPage({ params }: { params: { schoolId: string } }) 
     try {
       const application = await applicationService.createApplication({ schoolId: school.id, customAnswers: school.applicationFields.filter((field) => field.type !== 'file' && answers[field.id]?.trim()).map((field) => ({ questionId: field.id, question: field.label, answer: answers[field.id].trim() })) });
       for (const field of school.applicationFields.filter((item) => item.type === 'file')) if (files[field.id]) await applicationService.uploadDocument(application.id, files[field.id], field.id);
-      await applicationService.submitApplication(application.id, {});
       router.push(`/applications/${application.id}`);
     } catch (requestError: any) { setError(requestError.response?.data?.message || 'Could not submit this application. Please try again.'); } finally { setSubmitting(false); }
   };

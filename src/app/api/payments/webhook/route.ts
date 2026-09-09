@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
   if (!payment || payment.status === 'successful') return NextResponse.json({ received: true });
   const now = new Date().toISOString();
   payment.status = 'successful';
+  payment.schoolCommissionStatus = 'due';
   payment.updatedAt = now;
   const application = database.applications.find((candidate) => candidate.id === payment.applicationId);
   if (application) {
@@ -27,4 +28,3 @@ export async function POST(request: NextRequest) {
   await writeDatabase(database);
   return NextResponse.json({ received: true });
 }
-

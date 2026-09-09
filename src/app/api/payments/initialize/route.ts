@@ -26,6 +26,8 @@ export async function POST(request: NextRequest) {
     applicationId: application.id,
     amount: application.applicationFee,
     processingFee: application.processingFee,
+    schoolCommissionDue: Math.round(application.applicationFee * 0.1),
+    schoolCommissionStatus: 'not_due' as const,
     status: 'pending' as const,
     paymentMethod: 'card' as const,
     reference,

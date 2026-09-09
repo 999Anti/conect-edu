@@ -47,6 +47,7 @@ export interface School {
   admissionInstructions?: string;
   website?: string;
   annualTuitionFee?: number;
+  admissionFormFee?: number;
   gallery?: string[];
   admissionDocuments?: Array<{ name: string; url: string }>;
   applicationFields?: ApplicationFormField[];
@@ -209,6 +210,8 @@ export interface Payment {
   applicationId: string;
   amount: number;
   processingFee: number;
+  schoolCommissionDue?: number;
+  schoolCommissionStatus?: 'not_due' | 'due' | 'paid';
   status: PaymentStatus;
   paymentMethod: 'card' | 'bank_transfer';
   reference: string;

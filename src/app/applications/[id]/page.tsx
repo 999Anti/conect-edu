@@ -253,11 +253,11 @@ export default function ApplicationDetail({ params }: { params: { id: string } }
                 </CardHeader>
                 <CardBody className="space-y-3">
                   <div>
-                    <p className="text-secondary-600 text-sm">Application Fee</p>
+                    <p className="text-secondary-600 text-sm">School admission form fee</p>
                     <p className="font-bold text-lg">₦{application.applicationFee.toLocaleString()}</p>
                   </div>
                   <div>
-                    <p className="text-secondary-600 text-sm">Processing Fee</p>
+                    <p className="text-secondary-600 text-sm">CONECT EDU service charge (10%)</p>
                     <p className="font-bold text-lg">₦{application.processingFee.toLocaleString()}</p>
                   </div>
                   <div className="border-t pt-3">

@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
   const school = database.schools.find((item) => item.id === body.schoolId);
   if (!school) return badRequest('The selected school is unavailable.');
   if (!school.applicationFields?.length) return badRequest('This school has not published an online application form yet.');
+  if (!school.admissionFormFee || school.admissionFormFee < 30000) return badRequest('This school has not set a valid admission form fee yet.');
   const customAnswers = (body.customAnswers || []).filter((answer) => answer.questionId && answer.question && answer.answer?.trim()).map((answer) => ({ questionId: answer.questionId!, question: answer.question!, answer: answer.answer!.trim() }));
   const missingAnswer = school.applicationFields.find((field) => field.required && field.type !== 'file' && !customAnswers.some((answer) => answer.questionId === field.id));
   if (missingAnswer) return badRequest(`Please complete: ${missingAnswer.label}.`);
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
     id: randomUUID(), applicationId: `CE-${new Date().getFullYear()}-${String(database.applications.length + 1).padStart(6, '0')}`,
     userId: user.id, schoolId: school.id, status: 'draft' as const,
     desiredClass: '', studentFirstName: '', studentLastName: '', studentDOB: '', studentGender: 'male' as const, studentNationality: '', currentSchool: '', currentClass: '', parentName: '', parentEmail: user.email, parentPhone: '', parentAddress: '',
-    documents: [], customAnswers, paymentStatus: 'pending' as const, applicationFee: 0, processingFee: 0, totalAmount: 0, createdAt: now, updatedAt: now,
+    documents: [], customAnswers, paymentStatus: 'pending' as const, applicationFee: school.admissionFormFee, processingFee: Math.round(school.admissionFormFee * 0.1), totalAmount: Math.round(school.admissionFormFee * 1.1), createdAt: now, updatedAt: now,
   };
   database.applications.push(application);
   await writeDatabase(database);

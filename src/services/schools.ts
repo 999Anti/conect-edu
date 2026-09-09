@@ -11,6 +11,7 @@ export interface SchoolFilters {
   gender?: string;
   minFees?: number;
   maxFees?: number;
+  maxFormFee?: number;
   page?: number;
   limit?: number;
 }
