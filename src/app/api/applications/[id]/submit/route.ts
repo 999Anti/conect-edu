@@ -9,7 +9,12 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
   if (!user) return unauthorized();
   const application = database.applications.find((candidate) => candidate.id === params.id && candidate.userId === user.id);
   if (!application) return notFound('Application not found.');
-  if (application.paymentStatus !== 'successful') return badRequest('Payment is required before submitting this application.');
+  const school = database.schools.find((item) => item.id === application.schoolId);
+  if (!school?.applicationFields?.length) return badRequest('This school has not published an online application form yet.');
+  const missingAnswer = school.applicationFields.find((field) => field.required && field.type !== 'file' && !application.customAnswers?.some((answer) => answer.questionId === field.id && answer.answer.trim()));
+  if (missingAnswer) return badRequest(`Please complete: ${missingAnswer.label}.`);
+  const missingDocument = school.applicationFields.find((field) => field.required && field.type === 'file' && !application.documents?.some((document) => document.fieldId === field.id));
+  if (missingDocument) return badRequest(`Please upload: ${missingDocument.label}.`);
   application.status = 'submitted';
   application.submittedAt = new Date().toISOString();
   application.updatedAt = application.submittedAt;

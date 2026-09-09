@@ -74,7 +74,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/platform-login" className="hover:text-white transition-colors">
-                  Platform Login
+                  Platform Administrator Login
                 </Link>
               </li>
             </ul>

@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useStore } from '@store/auth';
 import Button from '@components/ui/Button';
-import ThemeToggle from '@components/theme/ThemeToggle';
 import { Menu, X } from 'lucide-react';
 
 export default function Header() {
@@ -37,9 +36,6 @@ export default function Header() {
           <Link href="/faq" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
             FAQ
           </Link>
-          <Link href="/school-apply" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
-            List Your School
-          </Link>
           <Link href="/school-login" className="text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400">
             School Login
           </Link>
@@ -53,7 +49,6 @@ export default function Header() {
               <Button onClick={handleLogout} variant="outline" size="sm">
                 Logout
               </Button>
-              <ThemeToggle />
             </div>
           ) : (
             <div className="flex items-center gap-2">
@@ -62,14 +57,12 @@ export default function Header() {
                   Login
                 </Button>
               </Link>
-              <ThemeToggle />
             </div>
           )}
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-2">
-          <ThemeToggle />
           <button
             className="text-secondary-700 dark:text-slate-200"
             onClick={() => setIsOpen(!isOpen)}
@@ -103,9 +96,6 @@ export default function Header() {
               onClick={() => setIsOpen(false)}
             >
               FAQ
-            </Link>
-            <Link href="/school-apply" className="block text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400" onClick={() => setIsOpen(false)}>
-              List Your School
             </Link>
             <Link href="/school-login" className="block text-secondary-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-400" onClick={() => setIsOpen(false)}>
               School Login

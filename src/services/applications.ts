@@ -3,20 +3,7 @@ import { Application, ApplicationStatus } from '@app-types/index';
 
 export interface CreateApplicationRequest {
   schoolId: string;
-  branchId?: string;
-  desiredClass: string;
-  studentFirstName: string;
-  studentLastName: string;
-  studentDOB: string;
-  studentGender: string;
-  studentNationality: string;
-  currentSchool: string;
-  currentClass: string;
-  parentName: string;
-  parentEmail: string;
-  parentPhone: string;
-  parentAddress: string;
-  customAnswers?: Array<{ questionId: string; question: string; answer: string }>;
+  customAnswers: Array<{ questionId: string; question: string; answer: string }>;
 }
 
 export interface SubmitApplicationRequest {

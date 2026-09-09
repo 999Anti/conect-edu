@@ -21,7 +21,10 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
   const folder = path.join(uploadPath, params.id); await mkdir(folder, { recursive: true });
   const filename = `${randomUUID()}-${safeName(file.name)}`; await writeFile(path.join(folder, filename), Buffer.from(await file.arrayBuffer()));
   const url = `/uploads/${params.id}/${filename}`;
-  if (kind === 'logo') school.logo = url; else if (kind === 'cover') school.coverImage = url; else if (kind === 'gallery') school.gallery = [...(school.gallery || []), url]; else school.admissionDocuments = [...(school.admissionDocuments || []), { name: file.name, url }];
+  if (kind === 'logo') school.logo = url;
+  else if (kind === 'cover') school.coverImage = url;
+  else if (kind === 'gallery') school.gallery = [...(school.gallery || []), url];
+  else school.admissionDocuments = [...(school.admissionDocuments || []), { name: file.name, url }];
   school.updatedAt = new Date().toISOString(); await writeDatabase(database);
   return NextResponse.json(school);
 }

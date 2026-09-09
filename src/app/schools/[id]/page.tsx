@@ -121,12 +121,10 @@ export default function SchoolDetail({ params }: { params: { id: string } }) {
                   <Badge>{school.boardingOption}</Badge>
                   <Badge>{school.gender}</Badge>
                 </div>
-                {school.branches?.length ? <p className="mb-4 text-sm text-secondary-700">{school.branches.length} campus{school.branches.length === 1 ? '' : 'es'} available. Select a branch when you apply.</p> : null}
+                {school.branches?.length ? <p className="mb-4 text-sm text-secondary-700">{school.branches.length} campus{school.branches.length === 1 ? '' : 'es'} available. Check the school form for branch instructions.</p> : null}
 
                 <div className="flex gap-4">
-                  <Link href={`/apply/${school.id}`}>
-                    <Button size="lg">Apply Now</Button>
-                  </Link>
+                  <Link href={`/apply/${school.id}`}><Button size="lg">{school.applicationFields?.length ? 'Apply Online' : 'Application Details'}</Button></Link>
                   <Button
                     variant="outline"
                     size="lg"
@@ -246,7 +244,8 @@ export default function SchoolDetail({ params }: { params: { id: string } }) {
                 <h2 className="text-2xl font-bold text-secondary-900 mb-4">Admissions</h2>
                 {school.admissionInstructions && <p className="mb-5 whitespace-pre-line text-secondary-700">{school.admissionInstructions}</p>}
                 {school.admissionRequirements?.length ? <><h3 className="mb-3 font-semibold text-secondary-900">Requirements</h3><ul className="list-disc space-y-2 pl-5 text-secondary-700">{school.admissionRequirements.map((requirement) => <li key={requirement}>{requirement}</li>)}</ul></> : <p className="text-secondary-600">Admission requirements will be shared by the school soon.</p>}
-                {school.admissionDocuments?.length ? <div className="mt-6"><h3 className="mb-3 font-semibold text-secondary-900">School documents</h3><ul className="space-y-2">{school.admissionDocuments.map((document) => <li key={document.url}><a className="text-primary-700 hover:underline" href={document.url} target="_blank" rel="noreferrer">{document.name}</a></li>)}</ul></div> : null}
+                {school.applicationFields?.length ? <div className="mt-6"><h3 className="mb-3 font-semibold text-secondary-900">Application form</h3><Link className="font-semibold text-primary-700 hover:underline" href={`/apply/${school.id}`}>Complete this school&apos;s application online</Link></div> : null}
+                {school.admissionDocuments?.length ? <div className="mt-6"><h3 className="mb-3 font-semibold text-secondary-900">School resources</h3><ul className="space-y-2">{school.admissionDocuments.map((document) => <li key={document.url}><a className="text-primary-700 hover:underline" href={document.url} target="_blank" rel="noreferrer">{document.name}</a></li>)}</ul></div> : null}
               </CardBody>
             </Card>
           )}
@@ -274,6 +273,7 @@ export default function SchoolDetail({ params }: { params: { id: string } }) {
                     <h3 className="font-semibold text-secondary-900 mb-2">Contact</h3>
                     <p className="text-secondary-600">{school.phone}</p>
                     <p className="text-secondary-600">{school.email}</p>
+                    {school.website && <a className="mt-2 inline-block font-medium text-primary-700 hover:underline" href={school.website} target="_blank" rel="noreferrer">Visit school website</a>}
                   </div>
                 </div>
                 {school.branches?.length ? <div className="mt-6 border-t border-secondary-100 pt-6"><h3 className="mb-3 font-semibold text-secondary-900">Campuses</h3><div className="grid gap-3 md:grid-cols-2">{school.branches.map((branch) => <div key={branch.id} className="rounded-lg bg-secondary-50 p-4"><p className="font-semibold text-secondary-900">{branch.name}</p><p className="mt-1 text-sm text-secondary-600">{branch.address}</p><p className="text-sm text-secondary-600">{branch.city}, {branch.state}</p></div>)}</div></div> : null}

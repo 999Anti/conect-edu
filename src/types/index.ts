@@ -7,6 +7,7 @@ export interface User {
   firstName: string;
   lastName: string;
   phone?: string;
+  profilePicture?: string;
   role: UserRole;
   canManageAdmins?: boolean;
   schoolPermission?: 'full' | 'admissions' | 'finance';
@@ -47,7 +48,7 @@ export interface School {
   website?: string;
   gallery?: string[];
   admissionDocuments?: Array<{ name: string; url: string }>;
-  applicationQuestions?: Array<{ id: string; question: string; required: boolean }>;
+  applicationFields?: ApplicationFormField[];
   branches?: SchoolBranch[];
   rating?: number;
   applicationCount?: number;
@@ -55,6 +56,14 @@ export interface School {
   verificationStatus: 'pending' | 'under_review' | 'verified' | 'suspended' | 'rejected';
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ApplicationFormField {
+  id: string;
+  label: string;
+  type: 'text' | 'textarea' | 'email' | 'tel' | 'date' | 'select' | 'file';
+  required: boolean;
+  options?: string[];
 }
 
 export interface SchoolBranch {
@@ -145,6 +154,7 @@ export interface Document {
   url: string;
   name: string;
   uploadedAt: string;
+  fieldId?: string;
 }
 
 export interface CustomAnswer {

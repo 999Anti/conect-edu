@@ -14,7 +14,6 @@ import applicationService from '@services/applications';
 import { Application } from '@app-types/index';
 import paymentService from '@services/payments';
 import Button from '@components/ui/Button';
-import Select from '@components/ui/Select';
 
 export default function ApplicationDetail({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -23,8 +22,6 @@ export default function ApplicationDetail({ params }: { params: { id: string } }
   const [isLoading, setIsLoading] = useState(true);
   const [isPaying, setIsPaying] = useState(false);
   const [paymentError, setPaymentError] = useState('');
-  const [documentType, setDocumentType] = useState('school_report');
-  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (isAuthLoading) return;
@@ -63,8 +60,6 @@ export default function ApplicationDetail({ params }: { params: { id: string } }
       setIsPaying(false);
     }
   };
-
-  const uploadDocument = async (event: React.ChangeEvent<HTMLInputElement>) => { const file = event.target.files?.[0]; if (!file || !application) return; setUploading(true); try { await applicationService.uploadDocument(application.id, file, documentType); await fetchApplication(); } finally { setUploading(false); event.target.value = ''; } };
 
   if (isLoading || isAuthLoading) {
     return (
@@ -176,7 +171,6 @@ export default function ApplicationDetail({ params }: { params: { id: string } }
                   <h2 className="text-xl font-bold text-secondary-900">Submitted Documents</h2>
                 </CardHeader>
                 <CardBody>
-                  {application.status !== 'withdrawn' && <div className="mb-5 grid gap-3 sm:grid-cols-[1fr_1fr]"><Select label="Document type" value={documentType} onChange={(event) => setDocumentType(event.target.value)} options={[{ value: 'birth_certificate', label: 'Birth certificate' }, { value: 'passport_photo', label: 'Passport photo' }, { value: 'school_report', label: 'School report' }, { value: 'transfer_document', label: 'Transfer document' }, { value: 'other', label: 'Other' }]} /><label className="block text-sm font-medium text-secondary-900">Upload document<input disabled={uploading} className="mt-2 block w-full text-sm" type="file" accept=".pdf,.doc,.docx,image/*" onChange={uploadDocument} /></label></div>}
                   {application.documents && application.documents.length > 0 ? (
                     <div className="space-y-3">
                       {application.documents.map(doc => (
@@ -188,7 +182,7 @@ export default function ApplicationDetail({ params }: { params: { id: string } }
                             <FileText size={20} className="text-primary-600" />
                             <div>
                               <p className="font-semibold text-secondary-900">{doc.name}</p>
-                              <p className="text-sm text-secondary-600">{doc.type}</p>
+                              <p className="text-sm text-secondary-600">Uploaded for this school&apos;s application form</p>
                             </div>
                           </div>
                           <a
