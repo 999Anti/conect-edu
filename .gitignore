@@ -5,3 +5,4 @@ public/uploads/
 docs/*.docx
 .env.local
 .env*.local
+**/*.zip
